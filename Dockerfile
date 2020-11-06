@@ -1,14 +1,13 @@
 FROM mwaeckerlin/very-base AS build
 RUN $PKG_INSTALL nodejs
 RUN for file in \
-        /etc/passwd \
-        /usr/bin/node \
-        $(ldd /usr/bin/node | sed -n 's,.* \([^ ]*/lib/[^ ]*\) .*,\1,p'); \
+    /usr/bin/node \
+    $(ldd /usr/bin/node | sed -n 's,.* \([^ ]*/lib/[^ ]*\) .*,\1,p'); \
     do \
-        path=${file%/*}; \
-        test -d /tmp/root/$path || mkdir -p /tmp/root/$path; \
-        cp -L $file /tmp/root/$file; \
-        done
+    path=${file%/*}; \
+    test -d /tmp/root/$path || mkdir -p /tmp/root/$path; \
+    cp -L $file /tmp/root/$file; \
+    done
 
 FROM mwaeckerlin/scratch
 ENV CONTAINERNAME    "node.js"
