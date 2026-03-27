@@ -14,7 +14,8 @@ FROM mwaeckerlin/scratch
 ENV CONTAINERNAME    "node.js"
 ENV NODE_ENV         "production"
 ENV PATH             ""
-CMD                  ["/usr/bin/node", "/app/dist/src/main"]
+ENTRYPOINT ["/usr/bin/node"]
+CMD ["/app/dist/src/main"]
 USER "${RUN_USER}"
 WORKDIR /app
 COPY --from=build /tmp/root /
