@@ -1,8 +1,8 @@
 # Docker Image for Node.JS Projects.
 
-Use [mwaeckerlin/nodejs-build](https://github.com/mwaeckerlin/nodejs-build) for building the images.
+This is the **production runtime base** for Node.JS services: use it as the **final stage** of a multi-stage build. Do the building in [mwaeckerlin/nodejs-build](https://github.com/mwaeckerlin/nodejs-build) — that image is build-only and must never run in production.
 
-The image does not have a shell nor an package manager, but only nodejs and it's shared libraries. It is nearly the same as `gcr.io/distroless/nodejs`, but it is much smaller and therefore better (smaller attack vector):
+The image does not have a shell nor a package manager, but only nodejs and its shared libraries. It is nearly the same as `gcr.io/distroless/nodejs`, but it is much smaller and therefore better (smaller attack vector):
 
     gcr.io/distroless/nodejs   latest              cf46b336f659         2 weeks ago        164MB
     mwaeckerlin/nodejs         latest              3099bad50ddc        26 minutes ago       56.2MB

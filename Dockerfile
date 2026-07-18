@@ -11,9 +11,9 @@ RUN for file in \
     done
 
 FROM mwaeckerlin/scratch
-ENV CONTAINERNAME    "node.js"
-ENV NODE_ENV         "production"
-ENV PATH             ""
+ENV CONTAINERNAME="node.js"
+ENV NODE_ENV="production"
+ENV PATH=""
 ENTRYPOINT ["/usr/bin/node"]
 CMD ["/app/dist/src/main"]
 USER "${RUN_USER}"
