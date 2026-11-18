@@ -1,5 +1,8 @@
 FROM mwaeckerlin/very-base AS build
-RUN $PKG_INSTALL nodejs
+# nodejs-current carries the active LTS on Alpine 3.24 (26.x), the package
+# nodejs the previous one (24.x); where the package moves away from
+# node:lts-alpine, the test node_is_current_lts fails
+RUN $PKG_INSTALL nodejs-current
 RUN for file in \
     /usr/bin/node \
     /usr/share/icu \

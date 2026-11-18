@@ -2,7 +2,7 @@
 
 This is the **production runtime base** for Node.JS services: use it as the **final stage** of a multi-stage build. Do the building in [mwaeckerlin/nodejs-build](https://github.com/mwaeckerlin/nodejs-build) — that image is build-only and must never run in production.
 
-The image does not have a shell nor a package manager, but only nodejs, its shared libraries and the English ICU data (`Intl` formats every locale like English). It is nearly the same as `gcr.io/distroless/nodejs`, but it is much smaller and therefore better (smaller attack vector):
+The image does not have a shell nor a package manager, but only nodejs of the current LTS (Alpine package `nodejs-current`), its shared libraries and the English ICU data (`Intl` formats every locale like English). It is nearly the same as `gcr.io/distroless/nodejs`, but it is much smaller and therefore better (smaller attack vector):
 
 ```text
 gcr.io/distroless/nodejs   latest              cf46b336f659         2 weeks ago        164MB
@@ -28,8 +28,8 @@ CMD ["/app/dist/main"]
 ## Development
 
 ```bash
-$ npm run build
-$ npm test
+npm run build
+npm test
 ```
 
-`npm test` checks the feature register ([FEATURES.md](FEATURES.md), [TESTS.md](TESTS.md)), the headless image contract and runs a small application in a child image. The image is built and published by the reusable workflow of [mwaeckerlin/scratch](https://github.com/mwaeckerlin/scratch#publishing-on-docker-hub).
+`npm test` checks the feature register ([FEATURES.md](FEATURES.md), [TESTS.md](TESTS.md)), the headless image contract and runs a small application in a child image. The architecture is described in [ARCHITECTURE.md](ARCHITECTURE.md). The image is built and published by the reusable workflow of [mwaeckerlin/scratch](https://github.com/mwaeckerlin/scratch#publishing-on-docker-hub).

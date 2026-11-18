@@ -1,5 +1,12 @@
 # Changelog
 
+- 2026-11-18 **1.1.4**
+    - Node.js 26, the current LTS, from the Alpine package `nodejs-current`; the image had Node.js 24.22 from the package `nodejs`
+
+- 2026-09-26 **1.1.3**
+    - The architecture of the image is documented, with diagrams
+    - The build and test commands of the README can be pasted into a terminal as they stand
+
 - 2026-09-26 **1.1.2**
     - The image is published for amd64 and arm64 under one tag, built and published automatically on every change and every week
     - The README showed a wrong example for a different entry point: `node` is the entrypoint, so the `CMD` names the script only

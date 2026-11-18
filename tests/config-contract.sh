@@ -29,7 +29,7 @@ else
     mkdir -p "${CONTEXT}/dist/src"
     cat > "${CONTEXT}/dist/src/main.js" <<'EOF'
 const os = require('os')
-console.log(JSON.stringify({user: os.userInfo().username, env: process.env.NODE_ENV, cwd: process.cwd(), intl: new Intl.NumberFormat('en-US').format(1234.5)}))
+console.log(JSON.stringify({user: os.userInfo().username, env: process.env.NODE_ENV, cwd: process.cwd(), intl: new Intl.NumberFormat('en-US').format(1234.5), node: process.versions.node}))
 EOF
     cp "${CONTEXT}/dist/src/main.js" "${CONTEXT}/dist/main.js"
     printf 'FROM %s\nCOPY dist /app/dist\n' "${IMAGE}" > "${CONTEXT}/Dockerfile"
@@ -41,6 +41,10 @@ EOF
         if [[ "${OUT}" == *'"env":"production"'* ]]; then _pass "node_env_production"; else _fail "node_env_production" "${OUT}"; fi
         if [[ "${OUT}" == *'"cwd":"/app"'* ]]; then _pass "workdir_app"; else _fail "workdir_app" "${OUT}"; fi
         if [[ "${OUT}" == *'"intl":"1,234.5"'* ]]; then _pass "icu_data_present"; else _fail "icu_data_present" "${OUT}"; fi
+        # the node of the official LTS image node:lts-alpine, pulled once
+        docker image inspect node:lts-alpine > /dev/null 2>&1 || docker pull -q node:lts-alpine > /dev/null
+        LTS=$(docker image inspect --format '{{range .Config.Env}}{{println .}}{{end}}' node:lts-alpine 2>/dev/null | sed -n 's/^NODE_VERSION=//p')
+        if [[ -n "${LTS}" && "${OUT}" == *"\"node\":\"${LTS%%.*}."* ]]; then _pass "node_is_current_lts"; else _fail "node_is_current_lts" "LTS «${LTS}» (docker pull node:lts-alpine), image: ${OUT}"; fi
     else
         _fail "default_main_runs_as_somebody" "child image does not build"
     fi
